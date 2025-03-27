@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/28cccff5d9.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="stylesheet" href="/styles/landing.css">
+    <link rel="stylesheet" href="/styles/news.css">
+    <link rel="stylesheet" href="/styles/admin.css">
+    <title>EcoInfoHub</title>
+  </head>
+  <body>
+    <!-- Начало, Мониторинг, Новини, Анкети, Полезни връзки, Помощ и контакти  
+     (Администраторски панел) -->
+    <header class="nav-bar">
+      <div class="nav-item">
+        <img class="logo" src="/imgs/logoEco.png" alt="" />
+        <a href="/" class="title">EcoInfoHub</a>
+      </div>
+
+      <div class="nav-item">
+        <div class="nav-button">
+          <a href="/">Начало</a>
+        </div>
+        <div class="nav-button">
+          <a href="/news">Новини</a>
+        </div>
+        <div class="nav-button">
+          <a href="/monitor">Мониторинг</a>
+        </div>
+        <div class="nav-button">
+          <a href="/surveys">Анкети</a>
+        </div>
+        <div class="nav-button">
+          <a href="/links">Полезни връзки</a>
+        </div>
+        <div class="nav-button">
+          <a href="/help">Помощ и контакти</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <% if(locals.loggedUser) {%>
+          <p><%= loggedUser.username %></p>
+          <% if(loggedUser.isAdmin) { %>
+            <p><a href="/admin/dashboard">Admin Panel</a></p>
+          <% } %>
+          <a href="/logout">Log Out</a>
+        <% } else {%>
+        <a href="/login" method="GET">Log In</a>
+        <% } %>
+      </div>
+    </header>

@@ -1,0 +1,14 @@
+<%- include("partials/header.ejs") %>
+<main>
+  <h1 class="subtitle"><%= post.title %></h1>
+  <div id="post">
+    <div class="">
+      <p>By: <%= post.username %></p>
+      <p><%= post.type %></p>
+    </div>
+
+    <div class="content"><%= post.content %></div>
+    <p><em>Публикувано на: <%= post.date_created %></em></p>
+  </div>
+</main>
+<%- include("partials/footer.ejs") %>

@@ -1,0 +1,34 @@
+<%- include("../partials/header.ejs") %>
+<main>
+  <h1 class="subtitle">Добави пост</h1>
+
+  <div>
+    <form action="/admin/add-news" method="POST">
+      <div>
+        <label for="title">Заглавие:</label>
+        <input type="text" id="title" name="title" required />
+      </div>
+      <div>
+        <label for="content">Съдържание:</label>
+        <textarea id="content" name="content" rows="5" required></textarea>
+      </div>
+      <div>
+        <label for="type">Категория:</label>
+        <select id="type" name="type" required>
+          <option value="1">Земя</option>
+          <option value="2">Вода</option>
+          <option value="3">Въздух</option>
+        </select>
+      </div>
+      <div>
+        <button type="submit">Добави</button>
+      </div>
+    </form>
+  </div>
+  <% if (locals.error) { %>
+  <h1 style="color: red"><%= error %></h1>
+  <% } else if (locals.success) { %>
+  <h1 style="color: green"><%= success %></h1>
+  <% } %>
+</main>
+<%- include("../partials/footer.ejs") %>

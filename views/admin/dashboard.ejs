@@ -1,0 +1,32 @@
+<%- include("../partials/header.ejs") %>
+<main id="admin-dashboard">
+  <h1 class="subtitle">Admin Panel</h1>
+  <div>
+    <a class="add-post" href="/admin/add-news" method="GET">Добави пост</a>
+  </div>
+
+  <% if (locals.posts) { %>
+  <div id="panel">
+    <% posts.forEach(post => { %>
+    <div class="post">
+      <p><%= post.id %></p>
+      <p><%= post.title %></p>
+      <p><%= post.creator %></p>
+      <button
+        class="btn-update"
+        onclick="window.location.href='/admin/edit/<%= post.id %>'"
+      >
+        Edit
+      </button>
+      <button
+        class="btn-delete"
+        onclick="window.location.href='/admin/delete/<%= post.id %>'"
+      >
+        Delete
+      </button>
+    </div>
+    <% }) %>
+  </div>
+  <% } %>
+</main>
+<%- include("../partials/footer.ejs") %>

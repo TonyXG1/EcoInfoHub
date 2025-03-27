@@ -1,0 +1,26 @@
+<%- include("partials/header.ejs") %>
+<main>
+  <h1 class="subtitle">Новини</h1>
+  <% if (locals.posts) { %>
+  <div class="grid-flexbox">
+    <div class="grid-posts">
+      <% posts.forEach(post => { %>
+      <div class="grid-item">
+        <h2 class="post-title"><a href="/news/<%= post.id %>"><%= post.title %></a></h2>
+        <img onclick="window.location.href='/news/<%= post.id %>'" style="cursor: pointer;" src="/imgs/types/<%= post.type %>.jpg" alt="" />
+        <div class="post-info">
+          <div class="post-creator"> <%= post.creator %> </div>
+          <div class="post-date"> <%= post.date_created %> </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>  
+  <% } else { %> 
+    <div class="empty">
+        <h2>Няма новини.</h2>
+    </div>
+
+  <% } %>
+</main>
+<%- include("partials/footer.ejs") %>

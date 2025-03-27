@@ -1,0 +1,52 @@
+<%- include("partials/header.ejs") %>
+
+<main id="landing">
+  <section class="banner">
+    <div class="background-color">
+      <h1 class="title">EcoInfoHub</h1>
+      <h2 class="motto">„Следи природата. Опази бъдещето.“</h2>
+      <div class="img-container">
+        <img src="/imgs/logoEco.png" alt="" />
+      </div>
+      <p>
+        Информация за състоянието на почвата, въздуха и водата – на едно място.
+      </p>
+      <div class="down-container">
+        <div class="down-background">
+          <a href="#info"><i class="fa-solid fa-arrow-down fa-4x"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="info">
+    <div class="info-picture">
+      <img src="/imgs/infoPicture.png" alt="" />
+    </div>
+
+    <div class="info-text">
+      <p>
+        Нашият сайт предоставя актуална информация за качеството на почвата,
+        въздуха и водата. Тук ще откриете реално време мониторинг, последни
+        екологични новини, полезни връзки и възможност да участвате в обществени
+        анкети. Целта ни е да информираме и ангажираме хората с грижата към
+        околната среда.
+      </p>
+    </div>
+    <hr />
+    <div class="learn-more">
+      <h2>Научи повече</h2>
+      <i class="fa-solid fa-hand-point-down fa-4x" style="color: #078c03"></i>
+    </div>
+    <div class="info-nav">
+      <a href="/news">
+        Новини <i class="fa-solid fa-newspaper" style="color: #ffffff"></i>
+      </a>
+      <a href="/monitor">
+        Мониторинг <i class="fa-solid fa-server" style="color: #ffffff"></i>
+      </a>
+    </div>
+  </section>
+</main>
+
+<%- include("partials/footer.ejs") %>
