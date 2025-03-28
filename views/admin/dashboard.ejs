@@ -5,6 +5,12 @@
     <a class="add-post" href="/admin/add-news" method="GET">Добави пост</a>
   </div>
 
+  <% if(locals.success) { %>
+    <h2 style="color: green;"><%= success %></h2>
+  <% } else if (locals.error) { %>
+    <h2 style="color: red;"><%= error %></h2>
+  <% } %>
+
   <% if (locals.posts) { %>
   <div id="panel">
     <% posts.forEach(post => { %>

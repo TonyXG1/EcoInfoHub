@@ -18,10 +18,6 @@ export default (db) => {
       "SELECT posts.id, title, type, content, date_created, username as creator from posts JOIN users ON users.id = creator_id";
     try {
       db.query(loadNewsSql, (err, results) => {
-        if (err) {
-          throw err;
-        }
-
         const formattedPosts = results.map((post) => {
           const date = new Date(post.date_created);
           const day = date.getUTCDate();
@@ -47,12 +43,10 @@ export default (db) => {
     }
   });
 
-  
   router.get("/add-news", (req, res) => {
     res.render("admin/add_news.ejs", { error: null, success: null });
   });
 
-  
   router.post("/add-news", (req, res) => {
     const { title, type, content } = req.body;
 
@@ -67,21 +61,13 @@ export default (db) => {
       "INSERT INTO posts (title, type, content, creator_id) VALUES (?, ?, ?, ?)";
     try {
       db.query(sql, [title, type, content, loggedUser.id], (err) => {
-        if (err) {
-          console.error("Error adding news:", err);
-          return res.render("admin/add_news.ejs", {
-            error: "Неуспешно добавяне на новина!",
-            success: null,
-          });
-        }
-
         res.render("admin/add_news.ejs", {
           error: null,
           success: "Новината беше успешно добавена!",
         });
       });
     } catch (error) {
-      console.error("Unexpected error:", error);
+      console.error("Error adding news:", error);
       res.render("admin/add_news.ejs", {
         error: "Неуспешно добавяне на новина!",
         success: null,
@@ -91,36 +77,94 @@ export default (db) => {
 
   router.get("/edit/:id", (req, res) => {
     const postId = req.params.id;
-    const loadPostSql = "SELECT posts.id, title, type, content, username as creator FROM posts JOIN users ON users.id = posts.creator_id WHERE posts.id = ?;";
+    const loadPostSql =
+      "SELECT posts.id, title, type, content, username as creator FROM posts JOIN users ON users.id = posts.creator_id WHERE posts.id = ?;";
 
     try {
       db.query(loadPostSql, [postId], (err, results) => {
-        if(err){
-          throw err;
-        }
-        if(results.length > 0){
+        if (results.length > 0) {
           const post = results[0];
           res.render("admin/edit_news.ejs", {
             post: post,
-          })
-        } else{
+          });
+        } else {
           res.status(404).send("Post not found");
         }
-        
-      })
+      });
     } catch (error) {
       console.error("Error loading post: ", error);
       res.render("admin/edit_news.ejs", {
-        error: error
+        error: "Неуспешно обновяване на новина",
+      });
+    }
+  });
+
+  router.post("/edit/:id", (req, res) => {
+    const postId = req.params.id;
+    const updatedBlog = req.body;
+
+    if (!updatedBlog.title || !updatedBlog.content || !updatedBlog.type) {
+      return res.render("admin/edit_news.ejs", {
+        error: "Всички полета са задължителни!",
+        success: null,
+        post: { ...updatedBlog, id: postId },
+      });
+    }
+    const updateSql =
+      "UPDATE posts SET title = ?, content = ?, type = ? WHERE id = ?";
+    try {
+      db.query(
+        updateSql,
+        [updatedBlog.title, updatedBlog.content, updatedBlog.type, postId],
+        (err) => {
+          if (err) {
+            console.error("Error updating post:", err);
+            return res.render("admin/edit_news.ejs", {
+              error: "Неуспешно редактиране на новина!",
+              post: { ...updatedBlog, id: postId },
+            });
+          }
+
+          res.render("admin/edit_news.ejs", {
+            success: "Новината беше успешно редактирана!",
+            post: { ...updatedBlog, id: postId },
+          });
+        }
+      );
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      res.render("admin/edit_news.ejs", {
+        error: "Неуспешно редактиране на новина!",
+        post: { ...updatedBlog, id: postId },
+      });
+    }
+  });
+
+  router.get("/delete/:id", (req, res) => {
+    const postId = req.params.id;
+    const deletePostSql = "DELETE from posts WHERE id = ?;";
+
+    try {
+      db.query(deletePostSql, [postId], (err, results) => {
+        if (results.affectedRows === 0) {
+          return res.render("admin/dashboard.ejs", {
+            success: null,
+            error: "Новината не беше намерена или вече е изтрита"
+          })
+        }
+        return res.render("admin/dashboard.ejs", {
+          success: `Новина номер ${postId} бе изтрита успешно.`,
+          error: null
+        })
+      });
+    } catch (error) {
+      console.error("Error deleting post: ", error);
+      return res.render("admin/dashboard.ejs", {
+        success: null,
+        error: "Неуспешно изтриване на новината"
       })
     }
-
-  })
-
-  router.put("/edit/:id", (req, res) => { 
-    const updatedBlog = req.body;
-    const updateSql = "UPDATE "
-  })
+  });
 
   return router;
 };
