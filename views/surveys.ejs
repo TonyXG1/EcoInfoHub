@@ -1,5 +1,64 @@
 <%- include("partials/header.ejs") %>
     <main>
         <h1 class="subtitle">Анкети</h1>
+        <section class="survey-form"></section>
+        <!-- GET /submit-survey -->
+            <form action="/submit-survey" method="POST"> 
+            <div class="form-group">
+                <label for="name">Име:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Възраст:</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Пол:</label>
+                <select id="gender" name="gender" required>
+                <option value="male">Мъж</option>
+                <option value="female">Жена</option>
+                <option value="other">Друг</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="environment-concern">Колко сте загрижени за околната среда?</label>
+                <select id="environment-concern" name="environment_concern" required>
+                <option value="not-concerned">Изобщо не съм загрижен</option>
+                <option value="slightly-concerned">Малко загрижен</option>
+                <option value="moderately-concerned">Умерено загрижен</option>
+                <option value="very-concerned">Много загрижен</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="suggestions">Имате ли предложения за подобряване на околната среда?</label>
+                <textarea id="suggestions" name="suggestions" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="recycling">Използвате ли рециклиране?</label>
+                <select id="recycling" name="recycling" required>
+                <option value="always">Винаги</option>
+                <option value="sometimes">Понякога</option>
+                <option value="never">Никога</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="transport">Какъв вид транспорт използвате най-често?</label>
+                <select id="transport" name="transport" required>
+                <option value="car">Кола</option>
+                <option value="public-transport">Обществен транспорт</option>
+                <option value="bicycle">Велосипед</option>
+                <option value="walking">Ходене пеша</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="energy-saving">Използвате ли енергоспестяващи уреди?</label>
+                <select id="energy-saving" name="energy_saving" required>
+                <option value="yes">Да</option>
+                <option value="no">Не</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">Изпрати</button>
+            </form>
+        </section>
     </main>
 <%- include("partials/footer.ejs") %>

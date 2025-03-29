@@ -1,5 +1,33 @@
 <%- include("partials/header.ejs") %>
     <main>
         <h1 class="subtitle">Мониторинг</h1>
+        <div class="locations">
+            <div><a href="">Стара Загора</a></div>
+            <div><a href="">София</a></div>
+            <div><a href="">Пловдив</a></div>
+            <div><a href="">Бургас</a></div>
+            <div><a href="">Варна</a></div>
+        </div>
+        <h2>Стара Загора Зелен Клин</h2>
+        <div>
+            <p>Наличие на CO (Въглероден оксид)</p>
+            <p> <%= sensorData.co %></p>
+        </div>
+        <div>
+            <p>Наличие на NO2 (Азотен диоксид)</p>
+            <p> <%= sensorData.no2 %></p>
+        </div>
+        <div>
+            <p>Наличие на O3 (Озон)</p>
+            <p> <%= sensorData.o3 %></p>
+        </div>
+        <div>
+            <p>Наличие на фини прахови частици</p>
+            <p> <%= sensorData.pm10 %></p>
+        </div>
+        <div>
+            <p>Наличие на So2 (Серен диоксид)</p>
+            <p> <%= sensorData.so2 %></p>
+        </div>
     </main>
 <%- include("partials/footer.ejs") %>

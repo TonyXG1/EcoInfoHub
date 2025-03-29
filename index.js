@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import mysql from "mysql2";
 import adminRoutes from "./routes/adminRoutes.js";
+import axios from "axios";
 
 const app = express();
 const port = 3000;
@@ -11,6 +12,15 @@ const db = mysql.createConnection({
   // password: '1547',
   database: "EcoInfoHub",
 });
+
+const API_KEY = "460b492929b9d28532ee52c7059cfc083417739c3ac6676a0dda4cddc1ae2c34";
+const apiClient = axios.create({
+  baseURL: "https://api.openaq.org/v3",
+  headers: {
+    "X-API-Key": API_KEY,
+  },
+});
+
 
 db.connect((err) => {
   if (err) {
@@ -118,22 +128,51 @@ app.get("/news/:id", (req, res) => {
 });
 
 app.get("/monitor", (req, res) => {
-  res.render("monitor.ejs", { loggedUser });
+  res.render("monitor.ejs", {
+    loggedUser
+  });
 });
 
-app.get("/surveys", (req, res) => {
+//API routes
+app.get("/monitor/StaraZagora", async (req, res) => {
+  //StaraZagora Zelen Klin sensor data
+  let data = {
+    co: null,
+    no2: null,
+    o3: null,
+    pm10: null,
+    so2: null
+  };
+  try {
+    const sensorIds = {
+      co: 25814,
+      no2: 25813,
+      o3: 25812,
+      pm10: 25811,
+      so2: 25810,
+    };
+
+    for (const [key, id] of Object.entries(sensorIds)) {
+      const response = await apiClient.get(`sensors/${id}`);
+      const value = response.data.results[0].latest.value;
+      data[key] = value < 0 ? "N/A" : value.toFixed(2);
+    }
+    console.log(data);
+    res.render("monitor.ejs", { loggedUser, sensorData: data });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/surveys", (req, res) => {-
   res.render("surveys.ejs", { loggedUser });
-});
-
-app.get("/links", (req, res) => {
-  res.render("links.ejs", { loggedUser });
 });
 
 app.get("/help", (req, res) => {
   res.render("help.ejs", { loggedUser });
 });
 
-//LOGIN FUNCTIONALITY
+//LOGIN/REGISTER FUNCTIONALITY
 app.get("/login", (req, res) => {
   if (loggedUser) res.redirect("/");
   res.render("login.ejs", {
