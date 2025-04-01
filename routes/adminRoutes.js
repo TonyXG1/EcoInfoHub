@@ -134,6 +134,7 @@ export default (db) => {
           res.render("admin/edit_news.ejs", {
             success: "Новината беше успешно редактирана!",
             post: { ...updatedBlog, id: postId },
+            loggedUser
           });
         }
       );
