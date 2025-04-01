@@ -20,12 +20,12 @@
     <!-- Начало, Мониторинг, Новини, Анкети, Полезни връзки, Помощ и контакти  
      (Администраторски панел) -->
     <header class="nav-bar">
-      <div class="nav-item">
-        <img class="logo" src="/imgs/logoEco.png" alt="" />
+      <div class="nav-item first">
+        <a href="/"><img class="logo" src="/imgs/logoEco.png" alt="" /></a>
         <a href="/" class="title">EcoInfoHub</a>
       </div>
 
-      <div class="nav-item">
+      <div class="nav-item middle">
         <div class="nav-button">
           <a href="/">Начало</a>
         </div>
@@ -42,15 +42,15 @@
           <a href="/help">Помощ и връзки</a>
         </div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item last">
         <% if(locals.loggedUser) {%>
-          <p><%= loggedUser.username %></p>
+          <p class="username"><%= loggedUser.username %></p>
           <% if(loggedUser.isAdmin) { %>
-            <p><a href="/admin/dashboard">Admin Panel</a></p>
+            <div class="nav-button"><a href="/admin/dashboard">Admin Panel</a></div>
           <% } %>
-          <a href="/logout">Log Out</a>
+          <div class="nav-button"><a href="/logout">Log Out</a></div>
         <% } else {%>
-        <a href="/login" method="GET">Log In</a>
+        <div class="nav-button"><a href="/login" method="GET">Log In</a></div>
         <% } %>
       </div>
     </header>

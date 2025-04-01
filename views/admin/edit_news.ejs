@@ -1,31 +1,33 @@
 <%- include("../partials/header.ejs") %>
-<main>  
-  <h1 class="subtitle"><%= post.title %></h1>
-  <form action="/admin/edit/<%= post.id %>" method="POST">
-    <div>
-      <label for="title">Заглавие:</label>
-      <input value="<%= post.title %>" type="text" id="title" name="title" required />
-    </div>
-    <div>
-      <label for="content">Съдържание:</label>
-      <textarea id="content" name="content" rows="5" required><%= post.content %></textarea>
-    </div>
-    <div>
-      <label for="type">Категория:</label>
-      <select value="<%= post.type %>" id="type" name="type" required>
-        <option value="1" <%= post.type == "1" ? "selected" : "" %>>Земя</option>
-        <option value="2" <%= post.type == "2" ? "selected" : "" %>>Вода</option>
-        <option value="3" <%= post.type == "3" ? "selected" : "" %>>Въздух</option>
-      </select>
-    </div>
-    <div>
-      <button type="submit">Обнови</button>
-    </div>
-  </form>
-  <% if (locals.success) { %>
-    <h1 style="color: green;"><%= success %></h1>
-  <% } else if (locals.error) {%>
-    <h1 style="color: red;"><%= error %></h1>
-  <% } %>
-</main>
+<div class="edit-news-container">
+  <main>  
+    <h1 class="subtitle"><%= post.title %></h1>
+    <form action="/admin/edit/<%= post.id %>" method="POST">
+      <div>
+        <label for="title">Заглавие:</label>
+        <input value="<%= post.title %>" type="text" id="title" name="title" required />
+      </div>
+      <div>
+        <label for="content">Съдържание:</label>
+        <textarea id="content" name="content" rows="5" required><%= post.content %></textarea>
+      </div>
+      <div>
+        <label for="type">Категория:</label>
+        <select value="<%= post.type %>" id="type" name="type" required>
+          <option value="1" <%= post.type == "1" ? "selected" : "" %>>Почва</option>
+          <option value="2" <%= post.type == "2" ? "selected" : "" %>>Вода</option>
+          <option value="3" <%= post.type == "3" ? "selected" : "" %>>Въздух</option>
+        </select>
+      </div>
+      <div class="button-container">
+        <button type="submit">Обнови</button>
+      </div>
+    </form>
+    <% if (locals.success) { %>
+      <h1 style="color: green;"><%= success %></h1>
+    <% } else if (locals.error) {%>
+      <h1 style="color: red;"><%= error %></h1>
+    <% } %>
+  </main>
+</div>
 <%- include("../partials/footer.ejs") %>

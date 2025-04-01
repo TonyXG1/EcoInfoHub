@@ -1,8 +1,9 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mysql from "mysql2";
-import adminRoutes from "./routes/adminRoutes.js";
 import axios from "axios";
+import adminRoutes from "./routes/adminRoutes.js";
+import apiRoutes from "./routes/apiRoutes.js";
 
 const app = express();
 const port = 3000;
@@ -13,14 +14,14 @@ const db = mysql.createConnection({
   database: "EcoInfoHub",
 });
 
-const API_KEY = "460b492929b9d28532ee52c7059cfc083417739c3ac6676a0dda4cddc1ae2c34";
+const API_KEY =
+  "460b492929b9d28532ee52c7059cfc083417739c3ac6676a0dda4cddc1ae2c34";
 const apiClient = axios.create({
   baseURL: "https://api.openaq.org/v3",
   headers: {
     "X-API-Key": API_KEY,
   },
 });
-
 
 db.connect((err) => {
   if (err) {
@@ -36,12 +37,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 let loggedUser = null;
 let posts = null;
 
+let data = {
+  co: null,
+  no2: null,
+  o3: null,
+  pm10: null,
+  so2: null,
+};
+
+let levels = {
+  co: null,
+  no2: null,
+  o3: null,
+  pm10: null,
+  so2: null,
+};
+
 app.use((req, res, next) => {
   req.loggedUser = loggedUser;
   next();
 });
 
 app.use("/admin", adminRoutes(db));
+app.use("/", apiRoutes(apiClient, data, levels, loggedUser));
 
 app.get("/", (req, res) => {
   res.render("index.ejs", { loggedUser });
@@ -57,7 +75,6 @@ app.get("/news", (req, res) => {
       if (err) {
         throw err;
       }
-      //TODO FIX THE DATE
       const formattedPosts = results.map((post) => {
         const date = new Date(post.date_created);
         const day = date.getUTCDate();
@@ -70,7 +87,6 @@ app.get("/news", (req, res) => {
         };
       });
       posts = formattedPosts;
-      //console.log(posts);
       res.render("news.ejs", { loggedUser, posts });
     });
   } catch (err) {
@@ -127,44 +143,7 @@ app.get("/news/:id", (req, res) => {
   }
 });
 
-app.get("/monitor", (req, res) => {
-  res.render("monitor.ejs", {
-    loggedUser
-  });
-});
-
-//API routes
-app.get("/monitor/StaraZagora", async (req, res) => {
-  //StaraZagora Zelen Klin sensor data
-  let data = {
-    co: null,
-    no2: null,
-    o3: null,
-    pm10: null,
-    so2: null
-  };
-  try {
-    const sensorIds = {
-      co: 25814,
-      no2: 25813,
-      o3: 25812,
-      pm10: 25811,
-      so2: 25810,
-    };
-
-    for (const [key, id] of Object.entries(sensorIds)) {
-      const response = await apiClient.get(`sensors/${id}`);
-      const value = response.data.results[0].latest.value;
-      data[key] = value < 0 ? "N/A" : value.toFixed(2);
-    }
-    console.log(data);
-    res.render("monitor.ejs", { loggedUser, sensorData: data });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-app.get("/surveys", (req, res) => {-
+app.get("/surveys", (req, res) => {
   res.render("surveys.ejs", { loggedUser });
 });
 
@@ -198,13 +177,6 @@ app.post("/login", (req, res) => {
           username: user.username,
           isAdmin: user.isAdmin,
         };
-        /*res.send(`<h1>Welcome, ${user.username}!</h1> 
-                    <p>${
-                      user.isAdmin
-                        ? "You are an Admin."
-                        : "You are a regular user."
-                    }</p>`);*/
-
         res.redirect("/");
       } else {
         res.render("login.ejs", { error: "Invalid username or password." });

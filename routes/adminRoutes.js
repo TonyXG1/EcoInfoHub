@@ -29,7 +29,6 @@ export default (db) => {
             date_created: `${day} ${month} ${year}`,
           };
         });
-
         res.render("admin/dashboard.ejs", {
           loggedUser,
           posts: formattedPosts,
@@ -44,7 +43,11 @@ export default (db) => {
   });
 
   router.get("/add-news", (req, res) => {
-    res.render("admin/add_news.ejs", { error: null, success: null });
+    res.render("admin/add_news.ejs", {
+       error: null, 
+       success: null,
+       loggedUser
+    });
   });
 
   router.post("/add-news", (req, res) => {
@@ -64,6 +67,7 @@ export default (db) => {
         res.render("admin/add_news.ejs", {
           error: null,
           success: "Новината беше успешно добавена!",
+          loggedUser
         });
       });
     } catch (error) {
@@ -86,6 +90,7 @@ export default (db) => {
           const post = results[0];
           res.render("admin/edit_news.ejs", {
             post: post,
+            loggedUser
           });
         } else {
           res.status(404).send("Post not found");
@@ -95,6 +100,7 @@ export default (db) => {
       console.error("Error loading post: ", error);
       res.render("admin/edit_news.ejs", {
         error: "Неуспешно обновяване на новина",
+        loggedUser
       });
     }
   });
@@ -153,6 +159,7 @@ export default (db) => {
           })
         }
         return res.render("admin/dashboard.ejs", {
+          loggedUser,
           success: `Новина номер ${postId} бе изтрита успешно.`,
           error: null
         })
@@ -160,6 +167,7 @@ export default (db) => {
     } catch (error) {
       console.error("Error deleting post: ", error);
       return res.render("admin/dashboard.ejs", {
+        loggedUser,
         success: null,
         error: "Неуспешно изтриване на новината"
       })

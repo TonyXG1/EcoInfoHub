@@ -1,6 +1,66 @@
 <%- include("partials/header.ejs") %>
-    <main>
-        <h1 class="subtitle">Помощ и Връзки
-        </h1>
-    </main>
+<h1 class="subtitle">Помощ и Връзки</h1>
+<main class="help-page">
+  <section>
+    <h1>Помощ & Връзки</h1>
+    <p>
+      Тази страница предлага помощ за различни въпроси, свързани с нашите
+      услуги. Ако имате запитвания или нужда от допълнителна информация, тук ще
+      намерите полезни връзки и начини за контакт.
+    </p>
+  </section>
+
+  <section>
+    <h2>Често задавани въпроси (FAQ)</h2>
+    <ul>
+      <li>
+        <strong>Откъде взимате данните в страницата "Мониторинг"?</strong> - Информацията се взима от <a href="https://openaq.org/">OpenAQ</a>
+      </li>
+      <li>
+        <strong>Как да се свържа с поддръжката?</strong> - Можете да използвате
+        формата за запитвания по-долу...
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Контактна информация</h2>
+    <p>Телефон: +359 123 456 789</p>
+    <p>
+      Имейл:
+      <a href="mailto:ecoinfohub@info.com">ecoinfohub@info.com</a>
+    </p>
+  </section>
+
+  <section>
+    <h2>Изпратете запитване</h2>
+    <form action="/send-query" method="post">
+      <label for="name">Вашето име:</label>
+      <input type="text" id="name" name="name" required />
+      <label for="email">Имейл:</label>
+      <input type="email" id="email" name="email" required />
+      <label for="message">Съобщение:</label>
+      <textarea id="message" name="message" required></textarea>
+      <button type="submit">Изпрати запитване</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Полезни връзки</h2>
+    <h3>РИОСВ</h3>
+    <ul>
+      <li><a href="https://stz.riew.gov.bg/">Стара Загора</a></li>
+      <li><a href="https://www.riew-sofia.org/">София</a></li>
+      <li><a href="https://plovdiv.riew.gov.bg/">Пловдив</a></li>
+      <li><a href="https://riosvbs.com/">Бургас</a></li>
+      <li><a href="https://riosv-varna.bg/">Варна</a></li>
+    </ul>
+    <hr>
+    <ul>
+      <li><a href="">Условия за ползване</a></li>
+      <li><a href="">Политика за конфиденциалност</a></li>
+    </ul>
+  </section>
+  <link rel="stylesheet" href="styles/help.css">
+</main>
 <%- include("partials/footer.ejs") %>

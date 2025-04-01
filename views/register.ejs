@@ -1,6 +1,6 @@
 <%- include("partials/header.ejs") %>
-<main>
-  <h2>Register</h2>
+<main class="register-page">
+  <h2 class="subtitle">Регистрация</h2>
 
   <% if (error) { %>
   <p style="color: red"><%= error %></p>
@@ -9,15 +9,17 @@
   <% } %>
 
   <form action="/register" method="POST">
-    <label for="username">Username:</label>
+    <label for="username">Потребителско име:</label>
     <input type="text" id="username" name="username" required />
     <br />
 
-    <label for="password">Password:</label>
+    <label for="password">Парола:</label>
     <input type="password" id="password" name="password" required />
     <br />
 
-    <button type="submit">Register</button>
+    <button type="submit">Регистрирай се</button>
   </form>
+  <p>Вече сте потребител? <a href="/login" method="GET">Влез тук</a></p>
 </main>
+<link rel="stylesheet" href="/styles/loginRegister.css">
 <%- include("partials/footer.ejs") %>
